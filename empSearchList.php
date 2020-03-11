@@ -1,49 +1,53 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+
+$json = file_get_contents('php://input');
+$data = json_decode($json,true);
+
 require_once 'include/dbconnect.php';
 $addQuery='';
 
 // EMP Name 
-if(isset($_POST["searchEmpName"])){
-     $findempName = $_POST["searchEmpName"];
+if(isset($data["searchEmpName"])){
+     $findempName = $data["searchEmpName"];
      $addQuery.="and a.EmpName LIKE '%".$findempName."%'";
 }
 
 //Skill Name
-if(isset($_POST["searchSkill"])){
-    $findSkill = $_POST["searchSkill"];
+if(isset($data["searchSkill"])){
+    $findSkill = $data["searchSkill"];
    $addQuery.="and a.Skills = '".$findSkill."'";
 }
 
 //Selected Emp
-if(isset($_POST["searchSelectedEmp"])){
-    $findSelEmp = $_POST["searchSelectedemp"];
+if(isset($data["searchSelectedEmp"])){
+    $findSelEmp = $data["searchSelectedemp"];
    $addQuery.="and a.isSelected = '".$findSelEmp."'";
 }
 
 // Search Active Emp 
-if(isset($_POST["searchActiveEmp"])){
-    $findActiveEmp = $_POST["searchActiveEmp"];
+if(isset($data["searchActiveEmp"])){
+    $findActiveEmp = $data["searchActiveEmp"];
     $addQuery.="and a.isActive = '".$findActiveEmp."'";
 }
 
 // Search Two Dates
-if(isset($_POST["FromDate"]) && isset($_POST["ToDate"])){
-    $from_date = $_POST["FromDate"];
-    $to_date = $_POST["ToDate"];
+if(isset($data["FromDate"]) && isset($data["ToDate"])){
+    $from_date = $data["FromDate"];
+    $to_date = $data["ToDate"];
     $addQuery.="and a.StartDate BETWEEN '".$from_date."' AND '".$to_date."'";
 }
 
 //  Search Experience
-if(isset($_POST["searchEmpExp"])){
-    $findEmpExp = $_POST["searchEmpExp"];
+if(isset($data["searchEmpExp"])){
+    $findEmpExp = $data["searchEmpExp"];
     $addQuery.="and a.Expereince = '".$findEmpExp."'";
 }
 
 // Search Relevant Experience.
-if(isset($_POST["searchRelExp"])){
-    $findRelEmp = $_POST["searchRelExp"];
+if(isset($data["searchRelExp"])){
+    $findRelEmp = $data["searchRelExp"];
     $addQuery.="and a.RelevantExperience = '".$findRelEmp."'";
 }
 

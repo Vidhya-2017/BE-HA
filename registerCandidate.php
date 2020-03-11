@@ -2,18 +2,21 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
+$json = file_get_contents('php://input');
+$data = json_decode($json,true);
+
 require_once 'include/dbconnect.php';
 
-	$emp_id	= $_POST['EmpID'];
-	$event_id	= $_POST['EventID'];
-	$emp_name = $_POST['EmpName'];
-	$skills = $_POST['Skills'];
-	$start_date	= $_POST['StartDate'];
-	$contact_no	= $_POST['ContactNo'];
-	$expereince = $_POST['Expereince'];
-	$relevant_experience = $_POST['RelevantExperience'];
-	$created_date = $_POST['CreatedDate'];
-	$created_by	= $_POST['CreatedBy'];
+	$emp_id	= $data['EmpID'];
+	$event_id	= $data['EventID'];
+	$emp_name = $data['EmpName'];
+	$skills = $data['Skills'];
+	$start_date	= $data['StartDate'];
+	$contact_no	= $data['ContactNo'];
+	$expereince = $data['Expereince'];
+	$relevant_experience = $data['RelevantExperience'];
+	$created_date = $data['CreatedDate'];
+	$created_by	= $data['CreatedBy'];
 
 	$select_query = "SELECT e.`ID`  FROM `candidate_event` e INNER JOIN `candidate_registration` c ON e.`CanidateID`= c.`ID` WHERE c.EmpID =$emp_id and e.`isActive`=1";
 	$select_result = mysqli_query($conn,$select_query);

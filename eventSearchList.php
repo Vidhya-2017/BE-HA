@@ -1,24 +1,28 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+
+$json = file_get_contents('php://input');
+$data = json_decode($json,true);
+
 require_once 'include/dbconnect.php';
 $addQuery='';
 
-if(isset($_POST["searchEvntName"])){
-    $findevntName = $_POST["searchEvntName"];
+if(isset($data["searchEvntName"])){
+    $findevntName = $data["searchEvntName"];
      $addQuery.="and EventName LIKE '%".$findevntName."%'";
 
 }
-if(isset($_POST["searchClntName"])){
-    $findclntName = $_POST["searchClntName"];
+if(isset($data["searchClntName"])){
+    $findclntName = $data["searchClntName"];
    $addQuery.="and Client = '".$findclntName."'";
 }
-if(isset($_POST["searchDuration"])){
-    $findduration = $_POST["searchDuration"];
+if(isset($data["searchDuration"])){
+    $findduration = $data["searchDuration"];
    $addQuery.="and Duration = '".$findduration."'";
 }
-if(isset($_POST["searchSkillName"])){
-    $findskill = $_POST["searchSkillName"];
+if(isset($data["searchSkillName"])){
+    $findskill = $data["searchSkillName"];
     $addQuery.="and Skills = '".$findskill."'";
 }
 

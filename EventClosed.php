@@ -1,9 +1,13 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+
+$json = file_get_contents('php://input');
+$data = json_decode($json,true);
+
 require_once 'include/dbconnect.php';
 
-$event_id   =   $_POST['EventID'];
+$event_id   =   $data['EventID'];
 $query      =   "UPDATE register_event SET isClosed='1' ";
 $result     =   mysqli_query($conn,$query);
 
@@ -14,7 +18,7 @@ $result     =   mysqli_query($conn,$query);
      while ($rows = mysqli_fetch_assoc($listings)) {
           $not_Selected_lists = $rows['ID'];
           $not_Selected_lists1 = $rows['ID'];
-          $event_query       =   "UPDATE candidate_event SET isActive='0' WHERE EventID = '".$_POST['EventID']."' AND ID='".$not_Selected_lists."'  ";
+          $event_query       =   "UPDATE candidate_event SET isActive='0' WHERE EventID = '".$data['EventID']."' AND ID='".$not_Selected_lists."'  ";
           $response          =   mysqli_query($conn,$event_query);
 
           $candidate_query   =   "UPDATE candidate_registration SET isActive='0' WHERE isSelected = '0' AND ID='".$not_Selected_lists1."'  ";

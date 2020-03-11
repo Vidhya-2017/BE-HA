@@ -2,12 +2,15 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
+$json = file_get_contents('php://input');
+$data = json_decode($json,true);
+
 require_once 'include/dbconnect.php';
 
-	$squad_name	= $_POST['SquadName'];
-	$event_id	= $_POST['EventID'];
-	$created_date = $_POST['CreatedDate'];
-	$created_by	= $_POST['CreatedBy'];
+	$squad_name	= $data['SquadName'];
+	$event_id	= $data['EventID'];
+	$created_date = $data['CreatedDate'];
+	$created_by	= $data['CreatedBy'];
 
 	
 	$query = "INSERT INTO squad (SquadName, EventID, CreatedDate, CreatedBy) VALUES ('$squad_name', $event_id, '$created_date', $created_by)";

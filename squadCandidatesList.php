@@ -2,10 +2,13 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
+$json = file_get_contents('php://input');
+$data = json_decode($json,true);
+
 require_once 'include/dbconnect.php';
 
-				if(isset($_POST['squad_name'])){
-						$squad_name = $_POST['squad_name'];
+				if(isset($data['squad_name'])){
+						$squad_name = $data['squad_name'];
 
 						if($squad_name){
 							$squad_condtion = "where s.SquadName = '$squad_name'";

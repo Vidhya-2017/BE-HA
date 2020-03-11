@@ -2,8 +2,11 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
+$json = file_get_contents('php://input');
+$data = json_decode($json,true);
+
 require_once 'include/dbconnect.php';
-$type = $_POST['type'];
+$type = $data['type'];
 
 
 
@@ -11,13 +14,13 @@ $type = $_POST['type'];
 	
 	    if($type == 'eventDetails'){
 			
-			$event_ID = $_POST['event_id'];
+			$event_ID = $data['event_id'];
 			
 			$query = "select cs.EmpID,cs.EmpName,ce.EventID,re.EventName, (case when ce.isSelected = 1 THEN 'True' else 'False'  END) as isSelected, (case when ce.isActive = 1 THEN 'Active' else 'InActive'  END) as isActive from candidate_registration as cs left outer join candidate_event ce on ce.CanidateID = cs.ID left outer join register_event re on ce.EventID = re.EventID where re.EventID =  '$event_ID'";
 				
 		}else if($type == 'candidateDetails'){
 			
-			$candidate_ID = $_POST['candidate_id'];
+			$candidate_ID = $data['candidate_id'];
 			
 			$query = "select cs.EmpID,cs.EmpName,ce.EventID,re.EventName, (case when ce.isSelected = 1 THEN 'True' else 'False'  END) as isSelected, (case when ce.isActive = 1 THEN 'Active' else 'InActive'  END) as isActive from candidate_registration as cs left outer join candidate_event ce on ce.CanidateID = cs.ID left outer join register_event re on ce.EventID = re.EventID where cs.EmpID =  '$candidate_ID'";
 		}
