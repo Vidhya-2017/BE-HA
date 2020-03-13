@@ -9,6 +9,7 @@ $data = json_decode($json,true);
 require_once 'include/dbconnect.php';
 
 $event_name			 		= $data['EventName'];
+$event_date                 =  $data['eventdate'];
 $event_location				= $data['Location'];
 $duration			 		= $data['Duration'];
 $skills 			 		= $data['Skills'];
@@ -20,7 +21,7 @@ $communication_skills_tested = $data['CommunicationSkillIsTested'];
 $logical_skills_tested 	= $data['LogicalSkillsIsTested'];
 
 
-$query = "INSERT INTO register_event ( EventName, Location, Date, Duration, Skills, Client, AssessmentScale, ProblemSolvingSkillTested, TechnicalSkilslsTested, CommunicationSkillIsTested, LogicalSkillsIsTested) VALUES ( '$event_name', '$event_location', now(), '$duration', '$skills ', '$client', '$assessment_scale', '$problem_solving_skills_tested', '$technical_skills_tested', '$communication_skills_tested', '$logical_skills_tested'); ";
+$query = "INSERT INTO register_event ( EventName, Location, Date, Duration, Skills, Client, AssessmentScale, ProblemSolvingSkillTested, TechnicalSkilslsTested, CommunicationSkillIsTested, LogicalSkillsIsTested) VALUES ( '$event_name', '$event_location', '$event_date', '$duration', '$skills ', '$client', '$assessment_scale', '$problem_solving_skills_tested', '$technical_skills_tested', '$communication_skills_tested', '$logical_skills_tested'); ";
 
 $result = mysqli_query($conn,$query);
 
