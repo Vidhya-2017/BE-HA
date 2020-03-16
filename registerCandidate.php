@@ -10,7 +10,7 @@ require_once 'include/dbconnect.php';
 	$emp_id	= $data['EmpID'];
 	$event_id	= $data['EventID'];
 	$emp_name = $data['EmpName'];
-	$skills = $data['Skills'];
+	$skills = implode(",",$data['Skills']);
 	$start_date	= $data['StartDate'];
 	$contact_no	= $data['ContactNo'];
 	$expereince = $data['Expereince'];

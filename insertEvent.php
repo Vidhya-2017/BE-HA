@@ -12,16 +12,17 @@ $event_name			 		= $data['EventName'];
 $event_date                 =  $data['eventdate'];
 $event_location				= $data['Location'];
 $duration			 		= $data['Duration'];
-$skills 			 		= $data['Skills'];
+//$skills 			 		= $data['Skills'];
+$skills                     = implode(",",$data['Skills']);
 $client						 = $data['Client'];
 $assessment_scale	 			= $data['AssessmentScale'];
-$problem_solving_skills_tested = $data['ProblemSolvingSkillTested'];
-$technical_skills_tested		 = $data['TechnicalSkilslsTested'];
-$communication_skills_tested = $data['CommunicationSkillIsTested'];
-$logical_skills_tested 	= $data['LogicalSkillsIsTested'];
+$problem_solving_skills_tested = ($data['ProblemSolvingSkillTested'] == true ? 1 : 0);
+$technical_skills_tested	 = ($data['TechnicalSkilslsTested'] == true ? 1 : 0);
+$communication_skills_tested = ($data['CommunicationSkillIsTested'] == true ? 1 : 0);
+$logical_skills_tested 	= ($data['LogicalSkillsIsTested']== true ? 1 : 0);
 
 
-$query = "INSERT INTO register_event ( EventName, Location, Date, Duration, Skills, Client, AssessmentScale, ProblemSolvingSkillTested, TechnicalSkilslsTested, CommunicationSkillIsTested, LogicalSkillsIsTested) VALUES ( '$event_name', '$event_location', '$event_date', '$duration', '$skills ', '$client', '$assessment_scale', '$problem_solving_skills_tested', '$technical_skills_tested', '$communication_skills_tested', '$logical_skills_tested'); ";
+ $query = "INSERT INTO register_event ( EventName, Location, Date, Duration, Skills, Client, AssessmentScale, ProblemSolvingSkillTested, TechnicalSkilslsTested, CommunicationSkillIsTested, LogicalSkillsIsTested) VALUES ( '$event_name', '$event_location', '$event_date', '$duration', '$skills ', '$client', '$assessment_scale', '$problem_solving_skills_tested', '$technical_skills_tested', '$communication_skills_tested', '$logical_skills_tested'); ";
 
 $result = mysqli_query($conn,$query);
 
