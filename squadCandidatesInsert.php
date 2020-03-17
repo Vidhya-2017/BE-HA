@@ -8,17 +8,6 @@ $data = json_decode($json,true);
 require_once 'include/dbconnect.php';
 
 
-$data = { "CandidateID": ["124"],
-"SquadID": "8",
-"isActive": "1",
-"CreatedBy": "0",
-"UpdatedBy": "0"
-} ;
-
-echo "<Pre>";
-echo "<Pre>";
-
-
 	  $Candidate_ID_val = $data['CandidateID'];
 
 	  if($Candidate_ID_val &&  (count($Candidate_ID_val) > 0)){
