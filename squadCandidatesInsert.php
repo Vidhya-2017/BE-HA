@@ -7,6 +7,18 @@ $data = json_decode($json,true);
 
 require_once 'include/dbconnect.php';
 
+
+$data = { "CandidateID": ["124"],
+"SquadID": "8",
+"isActive": "1",
+"CreatedBy": "0",
+"UpdatedBy": "0"
+} ;
+
+echo "<Pre>";
+echo "<Pre>";
+
+
 	  $Candidate_ID_val = $data['CandidateID'];
 
 	  if($Candidate_ID_val &&  (count($Candidate_ID_val) > 0)){
@@ -15,9 +27,9 @@ require_once 'include/dbconnect.php';
 			$Squad_ID			 		= $data['SquadID'];
 			$Candidate_ID			 	= $candidate_id;
 			$is_Active 			 		= $data['isActive'];
-			$Created_Date				= date('Y-m-d h:i s');
+			$Created_Date				= date('Y-m-d h:i:s');
 			$Created_By	 			    = $data['CreatedBy'];
-			$UpdatedDate 			    = date('Y-m-d h:i s');
+			$UpdatedDate 			    = date('Y-m-d h:i:s');
 			$Updated_By				    = $data['UpdatedBy'];
 
 
