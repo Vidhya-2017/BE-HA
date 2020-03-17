@@ -11,11 +11,9 @@ require_once 'include/dbconnect.php';
 	$event_id	= $data['EventID'];
 	$created_date = $data['CreatedDate'];
 	$created_by	= $data['CreatedBy'];
-	$updated_by	= $data['UpdatedBy'];
-	$updated_date = $data['UpdatedDate'];
 
 	
-	$query = "INSERT INTO squad (SquadName, EventID, CreatedDate, CreatedBy, UpdatedDate, UpdatedBy) VALUES ('$squad_name', $event_id, '$created_date', $created_by, '$updated_date', $updated_by)";
+	$query = "INSERT INTO squad (SquadName, EventID, CreatedDate, CreatedBy) VALUES ('$squad_name', $event_id, '$created_date', $created_by)";
 	
 	$result = mysqli_query($conn,$query);
 
