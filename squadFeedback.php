@@ -13,13 +13,14 @@ if (!file_exists('./images')) {
 if( $data !=""){
     $squadID = $data["squadID"];
     $candidate_id =$data["candidate_id"];
+    $sprintlevel = $data["sprintLevel"];
     $techSkill = $data["techSkill"];
     $logcSkill = $data["logcSkill"];
     $commSkill = $data["commSkill"];
     $feedback =$data["feedback"];
 
-    $query = "INSERT INTO squad_feedback (squad_id,candidate_id, imagestr, technical_skill , logical_skill , communication_skill , feedbackTxt , 
-isActive ) VALUES ('$squadID', '$candidate_id', '$imageStr', '$techSkill', '$logcSkill', '$commSkill', '$feedback', '1'); ";
+    $query = "INSERT INTO squad_feedback (squad_id,candidate_id, sprint_level , imagestr, technical_skill , logical_skill , communication_skill , feedbackTxt , 
+isActive ) VALUES ('$squadID', '$candidate_id','$sprintlevel' ,'$imageStr', '$techSkill', '$logcSkill', '$commSkill', '$feedback', '1'); ";
 	$result = mysqli_query($conn,$query);
     if(mysqli_insert_id($conn)>0){
        $imgdata = base64_decode($imageStr);

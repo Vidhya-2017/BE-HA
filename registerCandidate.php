@@ -11,6 +11,12 @@ require_once 'include/dbconnect.php';
 	$event_id	= $data['EventID'];
 	$emp_name = $data['EmpName'];
 	$skills = implode(",",$data['Skills']);
+
+	$addSkill = $data['AddSkills'];
+	$email_id =$data['EmailId'];
+	$isExternal = $data['isExternal'];
+	$candidateImage = $data['candidateImage'];
+
 	$start_date	= $data['StartDate'];
 	$contact_no	= $data['ContactNo'];
 	$expereince = $data['Expereince'];
@@ -23,7 +29,7 @@ require_once 'include/dbconnect.php';
 
 	if(mysqli_num_rows($select_result) == 0){
    
-		$query = "INSERT INTO candidate_registration (EmpID, EmpName, Skills, StartDate, ContactNo, Expereince, RelevantExperience, CreatedDate, CreatedBy) VALUES ($emp_id, '$emp_name', '$skills', '$start_date', '$contact_no', '$expereince', '$relevant_experience', '$created_date', '$created_by')";
+		$query = "INSERT INTO candidate_registration (EmpID, EmpName, Skills, AdditionalSkills , EmailId , StartDate, ContactNo, Expereince, RelevantExperience, isExternal , CreatedDate, CreatedBy,candidate_image ) VALUES ($emp_id, '$emp_name', '$skills','$addSkill' ,'$email_id' , '$start_date', '$contact_no', '$expereince', '$relevant_experience', '$isExternal', '$created_date', '$created_by','$candidateImage')";
 		
 		$result = mysqli_query($conn,$query);
 		$candidateId = mysqli_insert_id($conn);
