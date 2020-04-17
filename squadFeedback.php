@@ -14,8 +14,13 @@ if( $data !=""){
     $squadID = $data["squadID"];
     $candidate_id =$data["candidate_id"];
     $sprintlevel = $data["sprintLevel"];
-   // $panelId = $data["panelId"];
+   
+   if(isset($data["panelId"])){
+    $panelId = $data["panelId"];
+   }else{
     $panelId='';
+   }
+   
     $techSkill = $data["techSkill"];
     $logcSkill = $data["logcSkill"];
     $commSkill = $data["commSkill"];
