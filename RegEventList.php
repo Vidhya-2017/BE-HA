@@ -12,10 +12,14 @@ $durationset = array();
 if(mysqli_num_rows($result) > 0){
     while ($durationrow = mysqli_fetch_assoc($result)){
          $skill_id = $durationrow['Skills'];
+         $ass_scale = $durationrow['AssessmentScale'];
+         
         $selSkill = "SELECT GROUP_CONCAT(Skills) as skillsname  FROM `skills` where SkillId IN ($skill_id)";
         $skillresult = mysqli_query($conn,$selSkill);
         $skillrow = mysqli_fetch_assoc($skillresult);
-        $durationrow['skillname'] = $skillrow['skillsname'];
+        $durationrow['skillname'] = explode(",",$skillrow['skillsname']);
+        $durationrow['Skills'] = explode(",",$skill_id);
+        $durationrow['AssessmentScale'] = explode(",",$ass_scale);
       $durationset[] = $durationrow;
     } 
     $errcode = 200;
