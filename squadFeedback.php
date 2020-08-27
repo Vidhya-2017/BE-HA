@@ -1,6 +1,9 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token");
+
 require_once 'include/dbconnect.php';
 
 $json = file_get_contents('php://input');
@@ -14,47 +17,63 @@ if( $data !=""){
     $squadID = $data["squadID"];
     $candidate_id =$data["candidate_id"];
     $sprintlevel = $data["sprintLevel"];
+    $panelId = isset($data['panelId']) ? $data['panelId'] : '';
+    $eventId = isset($data['eventID']) ? $data['eventID'] : '';
+    $userId = isset($data['userID']) ? $data['userID'] : '';
+    $Created_Date = date('Y-m-d h:i:s');
+    $otherAssDetails = $data["otherAssessment"];
    
-   if(isset($data["panelId"])){
-    $panelId = $data["panelId"];
-   }else{
-    $panelId='';
-   }
+  
+    $feedback =$data["feedback"]; 
+    $imageStr =$data["imageStr"]; 
+    $finalStatus = $data["finalStatus"]; 
+    $competancyrating = $data["competancy_rating"]; 
+
+    
+    $role = $data["role"]; 
+
    
-    $techSkill = $data["techSkill"];
-    $logcSkill = $data["logcSkill"];
-    $commSkill = $data["commSkill"];
-    $feedback =$data["feedback"];
-
-    $query = "INSERT INTO squad_feedback (squad_id,candidate_id, sprintLevel, panel_list_id  , imagestr, technical_skill , logical_skill , communication_skill , feedbackTxt , 
-isActive ) VALUES ('$squadID', '$candidate_id','$sprintlevel' ,'$panelId' ,'$imageStr', '$techSkill', '$logcSkill', '$commSkill', '$feedback', '1'); ";
-	$result = mysqli_query($conn,$query);
-    if(mysqli_insert_id($conn)>0){
-       $imgdata = base64_decode($imageStr);
-        $im = imagecreatefromstring($imgdata);
-        if ($im !== false) {
-            header('Content-Type: image/jpg');
-            //imagejpeg($im,"http://40.121.205.179/hackeranchor/images/".$squadID.".jpg");
-            imagejpeg($im, "./images/".$squadID.".jpg");
-            imagedestroy($im);
-             $errcode = 200;
-             $status = "Success";
-        }
-        else {
-            echo 'An error occurred.';
-             $errcode = 500;
-             $status = "Failure";
-        }
-
-      
+    $selfb = mysqli_num_rows(mysqli_query($conn,"SELECT * from squad_feedback where  eventId='$eventId' AND  squad_id='$squadID' AND candidate_id='$candidate_id' and sprintLevel='$sprintlevel' and createdBy='$userId'")); 
+    if($selfb > 0){
+        $errcode = 200;
+        $status = "Already Feedback submitted";
     }else{
-        $errcode = 500;
-        $status = "Failure";
+         $query = "INSERT INTO squad_feedback (squad_id,candidate_id, sprintLevel, panel_list_id , eventId, imagestr, feedbackTxt ,sq_final_status, competancy_rating, role, isActive , createdDate , createdBy) VALUES ('$squadID', '$candidate_id','$sprintlevel' ,'$panelId' , '$eventId' , '$imageStr',  '$feedback', '$finalStatus', '$competancyrating', '$role', '1','$Created_Date','$userId'); ";
+    
+         $result = mysqli_query($conn,$query);
+    
+            if(mysqli_insert_id($conn)>0){
+                $squadfdID = mysqli_insert_id($conn);
+                $j=0;
+               for($i = 0; $i < count($otherAssDetails); $i++) {
+               
+                $AssScaleid = $otherAssDetails[$i]['scaleID'];
+                $AssScaleval = $otherAssDetails[$i]['scaleVAL'];
+
+                 $InsTab = "INSERT INTO squad_feedback_assesment_skill (squad_fb_id,other_assessment_scale_id ,assessment_value,isActive) VALUES ('$squadfdID', '$AssScaleid', '$AssScaleval','1') ";
+                $resultSkill = mysqli_query($conn,$InsTab);
+                if(mysqli_insert_id($conn)>0){
+                    $j=$j+1;
+                }
+
+              }
+                 if($j>0){
+                      $errcode = 200;
+                      $status = "Success";
+                  }else{
+                      $errcode = 404;
+                      $status = "Failure";
+                  }
+         }else{
+                $errcode = 404;
+                $status = "Failure";
+            }
+
     }
 
 }else{
 
-    $errcode = 500;
+    $errcode = 404;
     $status = "Failure data not received";
 }
 

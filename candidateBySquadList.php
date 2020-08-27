@@ -1,6 +1,8 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token");
 
 require_once 'include/dbconnect.php';
 
@@ -10,7 +12,7 @@ $data = json_decode($json,true);
 
 $squad_id =$data["squad_id"];
 
-$query = "SELECT c.`EmpName`, c.`EmpID` FROM `squad_candidates` sq JOIN `candidate_registration` c ON sq.`CandidateID` = c.`ID` WHERE sq.`SquadID`=$squad_id and c.`isActive`=1";
+$query = "SELECT c.`EmpName`, c.`EmpID`,sq.CandidateID ,c.candidate_image  FROM `squad_candidates` sq JOIN `candidate_registration` c ON sq.`CandidateID` = c.`ID` WHERE sq.`SquadID`=$squad_id and c.`isActive`=1";
 $result = mysqli_query($conn,$query);
 $candidatesdata = array();
 if(mysqli_num_rows($result) > 0){
@@ -20,7 +22,7 @@ if(mysqli_num_rows($result) > 0){
     $errcode = 200;
     $status = "Success";
 }else{
-    $errcode = 500;
+    $errcode = 404;
     $status = "Failure";
 }
 
